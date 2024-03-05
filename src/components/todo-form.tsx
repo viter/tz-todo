@@ -3,7 +3,7 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { addTask } from '../slices/taskSlice'
+import { addTask } from '../slices/task-slice'
 import { v4 as uuidv4 } from 'uuid'
 import { Typography } from '@mui/material'
 
@@ -13,14 +13,14 @@ export default function TodoForm(): JSX.Element {
   const [error, setError] = useState(false)
   const dispatch = useDispatch()
 
-  function handleSubmit(e: React.FormEvent): void {
-    e.preventDefault()
+  function handleSubmit(event: React.FormEvent): void {
+    event.preventDefault()
 
-    const target = e.target as typeof e.target & {
+    const target = event.target as typeof event.target & {
       task: { value: string }
     }
 
-    if(target.task.value.length > recordLength) {
+    if (target.task.value.length > recordLength) {
       setError(true)
       return
     }
@@ -28,9 +28,9 @@ export default function TodoForm(): JSX.Element {
     if (target.task.value) {
       dispatch(
         addTask({
-          id: uuidv4(),
-          text: target.task.value,
-          done: false,
+          'id': uuidv4(),
+          'text': target.task.value,
+          'done': false,
         }),
       )
     }
@@ -38,8 +38,8 @@ export default function TodoForm(): JSX.Element {
     setTask('')
   }
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    setTask(e.target.value)
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
+    setTask(event.target.value)
   }
   return (
     <Box
@@ -47,8 +47,8 @@ export default function TodoForm(): JSX.Element {
       margin="0 auto"
       display="block"
       sx={{
-        '& > :not(style)': { m: 1, width: '25ch' },
-        mb: 4
+        '& > :not(style)': { 'm': 1, 'width': '25ch' },
+        'mb': 4,
       }}
       noValidate
       autoComplete="off"
@@ -67,15 +67,13 @@ export default function TodoForm(): JSX.Element {
         id="submit"
         variant="outlined"
         size="small"
-        sx={{ verticalAlign: 'bottom' }}
+        sx={{ 'verticalAlign': 'bottom' }}
       >
         Add
       </Button>
-      
-      {error ? 
-        <Typography color='#E05F52' variant='body2'>The record should be no longer than {recordLength} characters</Typography>
-        : null}
-      
+      {error ? <Typography color='#E05F52' variant='body2'>
+          The record should be no longer than {recordLength} characters
+      </Typography> : undefined}
     </Box>
   )
 }

@@ -4,56 +4,65 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import DeleteOutlineOutlinedIcon
+  from '@mui/icons-material/DeleteOutlineOutlined'
 import { Task } from '../lib/types'
 import { useDispatch } from 'react-redux'
-import { deleteTask, updateTask } from '../slices/taskSlice'
+import { deleteTask, updateTask } from '../slices/task-slice'
 
-export default function TodoItem({ item }: { item: Task }): JSX.Element {
+export default function TodoItem({ todo }: { todo: Task }): JSX.Element {
   const dispatch = useDispatch()
 
-  function handleUpdate(item: Task): void {
-    if (item.id) {
-      dispatch(updateTask(item.id))
+  function handleUpdate(task: Task): void {
+    if (task.id) {
+      dispatch(updateTask(task.id))
     }
   }
 
-  const labelId = `checkbox-list-label-${item.id}`
+  const labelId = `checkbox-list-label-${todo.id}`
 
-  function handleDelete(item: Task): void {
-    if (item.id) {
-      dispatch(deleteTask(item.id))
+  function handleDelete(task: Task): void {
+    if (task.id) {
+      dispatch(deleteTask(task.id))
     }
   }
 
-  const textDecoration = item.done ? 'line-through' : 'none'
+  const textDecoration = todo.done ? 'line-through' : 'none'
 
   return (
     <ListItem
       secondaryAction={
-        <IconButton edge="end" aria-label="comments" onClick={() => handleDelete(item)}>
+        <IconButton
+          edge="end"
+          aria-label="comments"
+          onClick={() => handleDelete(todo)}
+        >
           <DeleteOutlineOutlinedIcon />
         </IconButton>
       }
       disablePadding
     >
       <ListItemButton
-        sx={{ borderRadius: '3px' }}
+        sx={{ 'borderRadius': '3px' }}
         role={undefined}
-        onClick={() => handleUpdate(item)}
+        onClick={() => handleUpdate(todo)}
         dense
       >
         <ListItemIcon>
           <Checkbox
             name="done"
             edge="start"
-            checked={item.done}
+            checked={todo.done}
             tabIndex={-1}
             disableRipple
             inputProps={{ 'aria-labelledby': labelId }}
           />
         </ListItemIcon>
-        <ListItemText id={labelId} primary={item.text} sx={{ textDecoration }} />
+        <ListItemText
+          id={labelId}
+          primary={todo.text}
+          sx={{ textDecoration }}
+        />
       </ListItemButton>
     </ListItem>
   )
